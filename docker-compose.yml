@@ -1,0 +1,11 @@
+---
+
+services:
+  openfortivpn:
+    build: .
+    cap_add:
+      - NET_ADMIN
+    network_mode: "host"
+    volumes:
+      - ./openfortivpn.conf:/etc/openfortivpn/config:ro
+    restart: unless-stopped
