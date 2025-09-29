@@ -2,6 +2,7 @@
 
 services:
   openfortivpn:
+    # image: runsystemid/openfortivpn:latest
     build: .
     privileged: true
     cap_add:
@@ -11,5 +12,5 @@ services:
       - /dev/net/tun
     network_mode: "host"
     volumes:
-      - ./openfortivpn.conf:/etc/openfortivpn/config:ro
+      - ./.openfortivpn.conf:/etc/openfortivpn/config:ro
     restart: unless-stopped
