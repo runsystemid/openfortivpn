@@ -1,7 +1,10 @@
 FROM debian:stable-slim
 
 RUN apt-get update && \
-    apt-get install -y openfortivpn && \
+    apt-get install -y openfortivpn ppp iputils-ping && \
     rm -rf /var/lib/apt/lists/*
 
-CMD ["openfortivpn", "-c", "/etc/openfortivpn/config"]
+COPY entrypoint.sh /entrypoint.sh
+RUN chmod +x /entrypoint.sh
+
+CMD ["/entrypoint.sh"]
