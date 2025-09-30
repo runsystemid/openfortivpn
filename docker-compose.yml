@@ -2,8 +2,8 @@
 
 services:
   openfortivpn:
-    # image: runsystemid/openfortivpn:latest
-    build: .
+    image: runsystemid/openfortivpn:latest
+    platform: linux/amd64
     privileged: true
     cap_add:
       - NET_ADMIN
