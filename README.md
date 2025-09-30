@@ -94,8 +94,8 @@ openfortivpn/
 ├── .openfortivpn.conf         # Your VPN credentials (git-ignored)
 ├── Dockerfile                 # Container definition
 ├── Makefile                   # NPM-style commands
-├── docker-compose.yml         # Development configuration
-├── docker-compose.deploy.yml  # Production configuration
+├── docker-compose.dev.yml     # Development configuration
+├── docker-compose.yml         # Production configuration
 ├── entrypoint.sh             # Container startup script
 └── README.md                 # This file
 ```
@@ -123,12 +123,12 @@ Additional OpenFortiVPN options can be added as needed. See [OpenFortiVPN docume
 
 ## 🐳 Docker Configurations
 
-### Development Mode (`docker-compose.yml`)
+### Development Mode (`docker-compose.dev.yml`)
 - Builds image locally from Dockerfile
 - Perfect for development and testing
 - Includes build cache for faster iterations
 
-### Production Mode (`docker-compose.deploy.yml`)
+### Production Mode (`docker-compose.yml`)
 - Uses pre-built image from registry
 - Faster deployment times
 - Consistent across environments
@@ -139,16 +139,16 @@ If you prefer direct Docker Compose commands:
 
 ### Development
 ```bash
-docker-compose up -d --build  # Start with build
-docker-compose logs -f        # View logs
-docker-compose down           # Stop
+docker-compose -f docker-compose.dev.yml up -d --build  # Start with build
+docker-compose -f docker-compose.dev.yml logs -f        # View logs
+docker-compose -f docker-compose.dev.yml down           # Stop
 ```
 
 ### Production
 ```bash
-docker-compose -f docker-compose.deploy.yml up -d  # Start production
-docker-compose -f docker-compose.deploy.yml logs -f # View logs
-docker-compose -f docker-compose.deploy.yml down    # Stop
+docker-compose up -d  # Start production
+docker-compose logs -f # View logs
+docker-compose down    # Stop
 ```
 
 ### Build & Push
