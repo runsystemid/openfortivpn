@@ -7,55 +7,56 @@ help: ## Show this help message
 
 dev: ## Start development environment (build and run)
 	@echo "🚀 Starting development environment..."
-	docker-compose up -d --build
+	docker-compose -f docker-compose.dev.yml up -d --build
 	@echo "✅ Development environment started. Use 'make logs' to view output."
 
 build: ## Build the Docker image
 	@echo "🔨 Building Docker image..."
-	docker-compose build
+	docker-compose -f docker-compose.dev.yml build
 	@echo "✅ Build complete."
 
 clean: ## Stop and remove containers, networks, and volumes
 	@echo "🧹 Cleaning up containers, networks, and volumes..."
+	docker-compose -f docker-compose.dev.yml down -v --remove-orphans
 	docker-compose down -v --remove-orphans
 	docker system prune -f
 	@echo "✅ Cleanup complete."
 
 deploy: ## Deploy using production configuration
 	@echo "🚀 Deploying with production configuration..."
-	docker-compose -f docker-compose.deploy.yml up -d
+	docker-compose up -d
 	@echo "✅ Deployment complete. Use 'make logs-deploy' to view output."
 
 logs: ## Show development logs (follow)
 	@echo "📄 Showing development logs (Ctrl+C to exit)..."
-	docker-compose logs -f
+	docker-compose -f docker-compose.dev.yml logs -f
 
 logs-deploy: ## Show deployment logs (follow)
 	@echo "📄 Showing deployment logs (Ctrl+C to exit)..."
-	docker-compose -f docker-compose.deploy.yml logs -f
+	docker-compose logs -f
 
 stop: ## Stop all containers
 	@echo "⏹️  Stopping containers..."
-	docker-compose down
-	docker-compose -f docker-compose.deploy.yml down 2>/dev/null || true
+	docker-compose -f docker-compose.dev.yml down
+	docker-compose down 2>/dev/null || true
 	@echo "✅ All containers stopped."
 
 restart: ## Restart development environment
 	@echo "🔄 Restarting development environment..."
-	docker-compose restart
+	docker-compose -f docker-compose.dev.yml restart
 	@echo "✅ Development environment restarted."
 
 restart-deploy: ## Restart deployment environment
 	@echo "🔄 Restarting deployment environment..."
-	docker-compose -f docker-compose.deploy.yml restart
+	docker-compose restart
 	@echo "✅ Deployment environment restarted."
 
 status: ## Show container status
 	@echo "📊 Container status:"
-	@docker-compose ps 2>/dev/null || echo "No development containers running"
+	@docker-compose -f docker-compose.dev.yml ps 2>/dev/null || echo "No development containers running"
 	@echo ""
 	@echo "📊 Deployment status:"
-	@docker-compose -f docker-compose.deploy.yml ps 2>/dev/null || echo "No deployment containers running"
+	@docker-compose ps 2>/dev/null || echo "No deployment containers running"
 
 push: ## Build and push image to registry
 	@echo "📤 Building and pushing image..."
