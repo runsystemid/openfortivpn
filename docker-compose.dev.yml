@@ -1,0 +1,15 @@
+---
+
+services:
+  openfortivpn:
+    build: .
+    privileged: true
+    cap_add:
+      - NET_ADMIN
+      - SYS_ADMIN
+    devices:
+      - /dev/net/tun
+    network_mode: "host"
+    volumes:
+      - ./.openfortivpn.conf:/etc/openfortivpn/config:ro
+    restart: unless-stopped
